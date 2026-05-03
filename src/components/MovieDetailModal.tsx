@@ -30,31 +30,38 @@ const MovieDetailModal = ({ movie, open, onClose, onSelectMovie, isInWatchlist, 
     setTrailerError(null);
   }, [movie?.id]);
 
-  const fetchTrailer = async () => {
-    if (!movie || trailerKey || trailerLoading) {
-      if (trailerKey) setShowTrailer(true);
-      return;
+const fetchTrailer = async () => {
+
+  if (!movie || trailerLoading) return;
+  if (trailerKey) { setShowTrailer(true); return; }
+
+  setTrailerLoading(true);
+  setTrailerError(null);
+
+  try {
+    const apiKey = import.meta.env.VITE_TMDB_API_KEY;
+    const res = await fetch(
+      `https://api.themoviedb.org/3/movie/${movie.tmdbId}/videos?api_key=${apiKey}&language=en-US`
+    );
+    const data = await res.json();
+
+    const trailer = data.results?.find(
+      (v: { type: string; site: string; key: string }) =>
+        v.type === "Trailer" && v.site === "YouTube"
+    );
+
+    if (trailer?.key) {
+      setTrailerKey(trailer.key);
+      setShowTrailer(true);
+    } else {
+      setTrailerError("Trailer not found");
     }
-    setTrailerLoading(true);
-    setTrailerError(null);
-    try {
-      const { data, error } = await supabase.functions.invoke("get-trailer", {
-        body: { title: movie.title, year: movie.year },
-      });
-      if (error) throw error;
-      if (data?.trailerKey) {
-        setTrailerKey(data.trailerKey);
-        setShowTrailer(true);
-      } else {
-        setTrailerError("Trailer not found");
-      }
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : "Failed to load trailer";
-      setTrailerError(msg);
-    } finally {
-      setTrailerLoading(false);
-    }
-  };
+  } catch {
+    setTrailerError("Failed to load trailer");
+  } finally {
+    setTrailerLoading(false);
+  }
+};
 
   if (!movie) return null;
 
@@ -126,7 +133,7 @@ const MovieDetailModal = ({ movie, open, onClose, onSelectMovie, isInWatchlist, 
         </div>
 
         {/* Content */}
-        <div className="px-6 pb-6 -mt-20 relative z-10 space-y-5">
+<div className={`px-6 pb-6 relative z-10 space-y-5 ${showTrailer ? 'mt-4' : '-mt-20'}`}>
           <div>
             <h2 className="font-display text-4xl sm:text-5xl tracking-wide text-foreground">
               {movie.title}

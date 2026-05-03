@@ -29,7 +29,7 @@ const MovieRow = ({ title, movies, onMovieClick, isInWatchlist, onToggleWatchlis
 
   return (
     <div className="space-y-3">
-      <h2 className="font-display text-2xl tracking-wide text-foreground px-1">
+      <h2 className="font-display text-2xl tracking-wide text-foreground px-4">
         {title}
       </h2>
       <div className="relative group/row">

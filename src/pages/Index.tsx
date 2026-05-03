@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Film, Sparkles, Search, X, Heart, TrendingUp } from "lucide-react";
+import { Sparkles, Search, X, Heart, TrendingUp } from "lucide-react";
 import MoodSelector from "@/components/MoodSelector";
 import MovieRow from "@/components/MovieRow";
 import MovieDetailModal from "@/components/MovieDetailModal";
@@ -123,23 +123,12 @@ const Index = () => {
             )}
           </div>
 
-          <select
-            value={selectedLanguage}
-            onChange={(e) => setSelectedLanguage(e.target.value as Language | "all")}
-            className="flex-shrink-0 px-3 py-2 rounded-full bg-secondary text-foreground text-sm border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors cursor-pointer"
-            aria-label="Filter by language"
-          >
-            <option value="all">All Languages</option>
-            {LANGUAGES.map((lang) => (
-              <option key={lang} value={lang}>{lang}</option>
-            ))}
-          </select>
-        </div>
+</div>
       </header>
 
       {isSearching ? (
         <section className="py-10 px-4 sm:px-8">
-          <div className="container mx-auto space-y-6">
+<div className="w-full space-y-6">
             <h2 className="font-display text-3xl tracking-wide text-foreground">
               Search Results ({searchResults.length})
             </h2>
@@ -174,40 +163,43 @@ const Index = () => {
           </section>
 
           {/* Trending Now */}
-          <section className="pb-10 px-4 sm:px-8">
-            <div className="container mx-auto">
-              <div className="flex items-center gap-2 mb-1">
+<section className="pb-10">
+            <div className="w-full">
+  <div className="flex items-center gap-2 mb-1 px-4">
                 <TrendingUp className="w-5 h-5 text-primary" />
                 <h2 className="font-display text-3xl tracking-wide text-foreground">Trending Now</h2>
               </div>
-              <MovieRow title="" movies={trendingMovies} onMovieClick={setDetailMovie} {...commonProps} />
-            </div>
+<div className="px-4">
+  <MovieRow title="" movies={trendingMovies} onMovieClick={setDetailMovie} {...commonProps} />
+</div>            </div>
           </section>
 
           {/* Personalized Recommendations */}
           {recommendedMovies.length > 0 && (
-            <section className="pb-10 px-4 sm:px-8">
-              <div className="container mx-auto">
-                <div className="flex items-center gap-2 mb-1">
-                  <Sparkles className="w-5 h-5 text-primary" />
-                  <h2 className="font-display text-3xl tracking-wide text-foreground">Recommended For You</h2>
+<section className="pb-10">
+             <div className="w-full">
+  <div className="flex items-center gap-2 mb-1 px-4">
+    <Sparkles className="w-5 h-5 text-primary" />
+    <h2 className="font-display text-3xl tracking-wide text-foreground">Recommended For You</h2>
                 </div>
-                <MovieRow title="" movies={recommendedMovies} onMovieClick={setDetailMovie} {...commonProps} />
-              </div>
+<div className="px-4">
+  <MovieRow title="" movies={recommendedMovies} onMovieClick={setDetailMovie} {...commonProps} />
+</div>              </div>
             </section>
           )}
 
           {/* Watchlist */}
           {watchlistMovies.length > 0 && (
-            <section className="pb-10 px-4 sm:px-8">
-              <div className="container mx-auto">
-                <div className="flex items-center gap-2 mb-1">
+<section className="pb-10">
+              <div className="w-full">
+  <div className="flex items-center gap-2 mb-1 px-4">
                   <Heart className="w-5 h-5 text-primary fill-primary" />
                   <h2 className="font-display text-3xl tracking-wide text-foreground">My Watchlist</h2>
                   <span className="text-sm text-muted-foreground">({watchlistMovies.length})</span>
                 </div>
-                <MovieRow title="" movies={watchlistMovies} onMovieClick={setDetailMovie} {...commonProps} />
-              </div>
+<div className="px-4">
+  <MovieRow title="" movies={watchlistMovies} onMovieClick={setDetailMovie} {...commonProps} />
+</div>              </div>
             </section>
           )}
 
@@ -220,9 +212,9 @@ const Index = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="pb-20 px-4 sm:px-8 space-y-10"
+className="pb-20 space-y-10"
               >
-                <div className="flex items-center gap-3 container mx-auto">
+<div className="flex items-center gap-3 px-4">
                   <Sparkles className="w-5 h-5 text-primary" />
                   <h2 className="font-display text-3xl tracking-wide text-foreground">
                     {selectedMoodData?.label} Picks
@@ -230,11 +222,11 @@ const Index = () => {
                   <span className="text-sm text-muted-foreground">({filteredMovies.length} movies)</span>
                 </div>
 
-                <div className="container mx-auto">
+<div className="w-full px-4">
                   <MovieRow title="Top Picks For You" movies={filteredMovies} onMovieClick={setDetailMovie} {...commonProps} />
                 </div>
 
-                <div className="container mx-auto space-y-8">
+<div className="w-full space-y-8 px-4">
                   {genreGroups.map(([genre, genreMovies]) => (
                     <MovieRow key={genre} title={genre} movies={genreMovies} onMovieClick={setDetailMovie} {...commonProps} />
                   ))}
