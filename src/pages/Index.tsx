@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Search, X, Heart, TrendingUp } from "lucide-react";
+import {Film ,Sparkles, Search, X, Heart, TrendingUp } from "lucide-react";
 import MoodSelector from "@/components/MoodSelector";
 import MovieRow from "@/components/MovieRow";
 import MovieDetailModal from "@/components/MovieDetailModal";
